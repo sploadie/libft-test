@@ -46,7 +46,8 @@ UT_TEST(ft_memccpy)
 	p2 = ft_memccpy(buf2, buf1, 'i', 10);
 	UT_ASSERT_EQ(p1, p2);
 	UT_ASSERT_EQ(ft_memccpy(buf2, buf1, 'k', 5), 0);
-	UT_ASSERT_EQ(ft_memccpy(buf2, buf1, 0, 0), 0);
+	UT_ASSERT_EQ(ft_memccpy(buf2, buf1, 0, 0), memccpy(buf2, buf1, 0, 0));
+	UT_ASSERT_EQ(ft_memccpy(buf2, buf1, 0, sizeof(buf1)), memccpy(buf2, buf1, 0, sizeof(buf1)));
 	UT_END_TEST();
 }
 
@@ -78,6 +79,7 @@ UT_TEST(ft_memcmp)
 	UT_BEGIN_TEST();
 	UT_ASSERT_EQ(ft_memcmp(t, t, 5), 0);
 	UT_ASSERT_NEQ(ft_memcmp(t, "abcab", 5) ,0);
+	UT_ASSERT(ft_memcmp("aaa", "aab", 4) < 0);
 	UT_END_TEST();
 }
 
@@ -205,9 +207,12 @@ UT_TEST(ft_strnstr)
 	UT_ASSERT_EQ(strnstr(buf, "9", 3), ft_strnstr(buf, "9", 3));
 	UT_ASSERT_EQ(ft_strnstr(buf, "", 6), buf);
 	UT_ASSERT_EQ(ft_strnstr(buf, "deux", 5), strnstr(buf, "deux", 5));
+	UT_ASSERT_EQ(ft_strnstr(buf, "9", 10), strnstr(buf, "9", 10));
 	buf[9] = '6';
 	UT_ASSERT_EQ(strnstr(buf, "cinq", 10), ft_strnstr(buf, "cinq", 10));
 	UT_ASSERT_EQ(strnstr(buf, "deux", 10), ft_strnstr(buf, "deux", 10));
+	UT_ASSERT_EQ(strnstr(buf, "9682", 10), ft_strnstr(buf, "9682", 10));
+	UT_ASSERT_EQ(strnstr(buf, "6", 10), ft_strnstr(buf, "6", 10));
 	UT_END_TEST();
 }
 
