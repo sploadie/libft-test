@@ -2,11 +2,14 @@
 # define UNIT_TEST_H
 
 # include <stdio.h>
+# include <signal.h>
 
 # define UT_TEST(name)		int ut_test_ ## name(void)
 # define UT_ASSERT(cond)	if(!(cond)) {_asserts_fails++;}
 # define UT_RUN_TEST(test_)	printf("%s%-20s", "[\033[33mUT\033[0m] Testing ", test_->name); if((test_->test())) \
-							{ puts("[\033[31;1mFAIL\033[0m]"); _test_fails++; } else { puts("[\033[32;1mOk !\033[0m]");}
+							{ puts("[\033[31;1mFAIL\033[0m]"); _test_fails++; } \
+							else { puts("[\033[32;1mOk !\033[0m]");}
+# define UT_SEGV(test_)		puts("[\033[34;1mSEGV\033[0m]");
 # define UT_BEGIN_TEST()	int _asserts_fails = 0
 # define UT_END_TEST()		return (_asserts_fails)
 # define UT_ADD_TEST(name)	ut_add_test_(&ut_test_ ## name, #name)
@@ -28,8 +31,9 @@ typedef struct				ut_test_list_s
 	struct ut_test_list_s	*next;
 }							ut_test_list_t;
 
-extern	ut_test_list_t		*ut_tests;
+extern ut_test_list_t		*ut_tests;
 
+void						ut_sigsegv_(int);
 ut_test_list_t				*ut_create_list_(ut_test, char *);
 void						ut_add_test_(ut_test, char *);
 int							ut_run_all_tests_(void);
