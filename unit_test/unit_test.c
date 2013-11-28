@@ -4,7 +4,7 @@
 
 ut_test_list_t	*ut_tests = 0;
 jmp_buf			ut_env;
-
+char			*ut_last_err;
 
 void				ut_sigsegv_(int u)
 {
