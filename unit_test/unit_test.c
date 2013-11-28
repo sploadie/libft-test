@@ -46,6 +46,7 @@ int			ut_run_all_tests_(void)
 {
 	int		_test_fails;
 	int		count;
+	int		ret;
 	ut_test_list_t	*tmp;
 
 	signal(SIGBUS, &ut_sigsegv_);
@@ -61,6 +62,7 @@ int			ut_run_all_tests_(void)
 	tmp = ut_tests;
 	while (tmp)
 	{
+		ret = 0;
 		if (setjmp(ut_env))
 		{
 			UT_SEGV(tmp);
@@ -68,7 +70,7 @@ int			ut_run_all_tests_(void)
 		}
 		else
 		{
-			UT_RUN_TEST(tmp);
+			UT_RUN_TEST(tmp, &ret);
 		}
 		count++;
 		tmp = tmp->next;
