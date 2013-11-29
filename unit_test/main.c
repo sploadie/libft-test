@@ -322,6 +322,46 @@ UT_TEST(ft_strclr)
 	UT_ASSERT_EQ(memcmp(str, "\0\0\0\0\0\0", 7), 0);
 }
 
+void	it_test(char *c)
+{
+	*c = *c + 1;
+}
+
+UT_TEST(ft_striter)
+{
+	char	str[] = "aBcDeF";
+
+	ft_striter(str, it_test);
+	UT_ASSERT_EQ(strcmp(str, "bCdEfG"), 0);
+}
+
+void	iti_test(unsigned int i, char *c)
+{
+	*c = *c + i;
+}
+
+UT_TEST(ft_striteri)
+{
+	char	str[] = "aBcDeF";
+
+	ft_striteri(str, iti_test);
+	UT_ASSERT_EQ(strcmp(str, "aCeGiK"), 0);
+}
+
+char	map_test(char c)
+{
+	return (c + 1);
+}
+
+UT_TEST(ft_strmap)
+{
+	char	*str;
+
+	str = "abcde";
+	str = ft_strmap(str, map_test);
+	UT_ASSERT_EQ(ft_strcmp(str, "bcdef"), 0);
+}
+
 #endif
 
 int	main(void)
@@ -360,6 +400,9 @@ int	main(void)
 	UT_ADD_TEST(ft_strnew);
 	UT_ADD_TEST(ft_strdel);
 	UT_ADD_TEST(ft_strclr);
+	UT_ADD_TEST(ft_striter);
+	UT_ADD_TEST(ft_striteri);
+	UT_ADD_TEST(ft_strmap);
 #endif
 	UT_RUN_ALL_TESTS();
 	return (0);
