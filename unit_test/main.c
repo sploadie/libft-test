@@ -2,6 +2,13 @@
 #include "libft.h"
 #include <string.h>
 #include <strings.h>
+#include <stdlib.h>
+
+/* Uncomment this if you don't have
+** Part 2 
+*/
+
+/* #define NO_PART_2 */
 
 UT_TEST(ft_memset)
 {
@@ -179,6 +186,8 @@ UT_TEST(ft_strnstr)
 	UT_ASSERT_EQ(strnstr(buf, "deux", 10), ft_strnstr(buf, "deux", 10));
 	UT_ASSERT_EQ(strnstr(buf, "9682", 10), ft_strnstr(buf, "9682", 10));
 	UT_ASSERT_EQ(strnstr(buf, "6", 10), ft_strnstr(buf, "6", 10));
+	buf[1] = 0;
+	UT_ASSERT_EQ(strnstr(buf, "deux", 10), ft_strnstr(buf, "deux", 10));
 }
 
 UT_TEST(ft_strcmp)
@@ -259,6 +268,62 @@ UT_TEST(ft_tolower)
 	UT_ASSERT_EQ(ft_tolower('e'), 'e');
 }
 
+#ifndef NO_PART_2
+	
+UT_TEST(ft_memalloc)
+{
+	void	*mem1, *mem2;
+
+	mem1 = malloc(100);
+	bzero(mem1, 100);
+	mem2 = ft_memalloc(100);
+	UT_ASSERT_EQ(memcmp(mem1, mem2, 100), 0);
+	UT_ASSERT_EQ(ft_memalloc(0), NULL);
+	UT_ASSERT_EQ(ft_memalloc((size_t)-1), NULL);
+}
+
+UT_TEST(ft_memdel)
+{
+	void	*mem;
+
+	mem = malloc(2000);
+	ft_memdel(&mem);
+	UT_ASSERT_EQ(mem, NULL);
+}
+
+UT_TEST(ft_strnew)
+{
+	char	*str;
+	char	*t;
+
+	str = ft_strnew(0);
+	UT_ASSERT_NEQ(str, NULL);
+	str = ft_strnew(100);
+	t = malloc(101);
+	bzero(t, 101);
+	UT_ASSERT_EQ(memcmp(str, t, 101), 0);
+	UT_ASSERT_EQ(ft_strnew((size_t)-1), 0);
+}
+
+UT_TEST(ft_strdel)
+{
+	char	*str;
+
+	str = malloc(123);
+	ft_strdel(&str);
+	UT_ASSERT_EQ(str, NULL);
+}
+
+UT_TEST(ft_strclr)
+{
+	char	str[] = "tttttt";
+
+	ft_strclr(str);
+	UT_ASSERT_EQ(memcmp(str, "\0\0\0\0\0\0", 7), 0);
+}
+
+#endif
+
 int	main(void)
 {
 	UT_ADD_TEST(ft_memset);
@@ -289,6 +354,13 @@ int	main(void)
 	UT_ADD_TEST(ft_isprint);
 	UT_ADD_TEST(ft_toupper);
 	UT_ADD_TEST(ft_tolower);
+#ifndef NO_PART_2
+	UT_ADD_TEST(ft_memalloc);
+	UT_ADD_TEST(ft_memdel);
+	UT_ADD_TEST(ft_strnew);
+	UT_ADD_TEST(ft_strdel);
+	UT_ADD_TEST(ft_strclr);
+#endif
 	UT_RUN_ALL_TESTS();
 	return (0);
 }
