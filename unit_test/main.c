@@ -416,6 +416,14 @@ UT_TEST(ft_strtrim)
 	UT_ASSERT_EQ(strcmp(ft_strtrim("abc"), "abc"), 0);
 }
 
+UT_TEST(ft_itoa)
+{
+	UT_ASSERT_EQ(strcmp(ft_itoa(0), "0"), 0);
+	UT_ASSERT_EQ(strcmp(ft_itoa(-1234), "-1234"), 0);
+	UT_ASSERT_EQ(strcmp(ft_itoa(123456000), "123456000"), 0);
+	UT_ASSERT_EQ(strcmp(ft_itoa(-2147483648), "-2147483648"), 0);
+}
+
 #endif
 
 int	main(void)
@@ -463,6 +471,7 @@ int	main(void)
 	UT_ADD_TEST(ft_strsub);
 	UT_ADD_TEST(ft_strjoin);
 	UT_ADD_TEST(ft_strtrim);
+	UT_ADD_TEST(ft_itoa);
 #endif
 	UT_RUN_ALL_TESTS();
 	return (0);
