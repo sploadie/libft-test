@@ -391,6 +391,30 @@ UT_TEST(ft_strnequ)
 	UT_ASSERT_EQ(ft_strnequ("abcde", "abdde", 5), 0);
 }
 
+UT_TEST(ft_strsub)
+{
+	char	*str;
+
+	str = "Un jour je serai, le meilleur dresseur !";
+	UT_ASSERT_EQ(ft_strsub(str, 0, (size_t)-1), NULL);
+	UT_ASSERT_EQ(strcmp(ft_strsub(str, 8, 8), "je serai"), 0);
+	UT_ASSERT_EQ(strcmp(ft_strsub(str, 0, 0), ""), 0);
+}
+
+UT_TEST(ft_strjoin)
+{
+	UT_ASSERT_EQ(strcmp(ft_strjoin("abc", "def"), "abcdef"), 0);
+	UT_ASSERT_EQ(strcmp(ft_strjoin("", ""), ""), 0);
+}
+
+UT_TEST(ft_strtrim)
+{
+	UT_ASSERT_EQ(strcmp(ft_strtrim("\t\n  \tAAA \t BBB\t\n  \t"), "AAA \t BBB"), 0);
+	UT_ASSERT_EQ(strcmp(ft_strtrim("\t\t\n\t\t   "), ""), 0);
+	UT_ASSERT_EQ(strcmp(ft_strtrim(""), ""), 0);
+	UT_ASSERT_EQ(strcmp(ft_strtrim("abc"), "abc"), 0);
+}
+
 #endif
 
 int	main(void)
@@ -435,6 +459,9 @@ int	main(void)
 	UT_ADD_TEST(ft_strmapi);
 	UT_ADD_TEST(ft_strequ);
 	UT_ADD_TEST(ft_strnequ);
+	UT_ADD_TEST(ft_strsub);
+	UT_ADD_TEST(ft_strjoin);
+	UT_ADD_TEST(ft_strtrim);
 #endif
 	UT_RUN_ALL_TESTS();
 	return (0);
