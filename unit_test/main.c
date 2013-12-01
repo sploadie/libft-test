@@ -4,6 +4,7 @@
 #include <strings.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <malloc/malloc.h>
 
 /* Uncomment this if you don't have
 ** Part 2 
@@ -641,6 +642,11 @@ UT_TEST(ft_lstdel)
 	ft_lstdel(&list, del_test);
 	UT_ASSERT_EQ(list, NULL);
 	UT_ASSERT_EQ(____diddel, 2);
+}
+
+UT_TEST(ft_lstadd)
+{
+	UT_ASSERT(0);
 }
 
 #endif
