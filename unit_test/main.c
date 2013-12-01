@@ -144,6 +144,8 @@ UT_TEST(ft_strncat)
 	strcpy(buf, "To be ");
 	ft_strncat(buf, "or not to be", 6);
 	UT_ASSERT_EQ(strcmp(buf, "To be or not"), 0);
+	ft_strncat(buf, "efefef", 0);
+	UT_ASSERT_EQ(strcmp(buf, "To be or not"), 0);
 }
 
 UT_TEST(ft_strlcat)
@@ -169,6 +171,7 @@ UT_TEST(ft_strchr)
 
 	UT_ASSERT_EQ(strchr(buf, 'p'), ft_strchr(buf, 'p'));
 	UT_ASSERT_EQ(strchr(buf, 0), ft_strchr(buf, 0));
+	UT_ASSERT_EQ(strchr(buf, 'J'), buf);
 	UT_ASSERT_EQ(ft_strchr(buf, 'z'), 0);
 }
 
@@ -179,6 +182,8 @@ UT_TEST(ft_strrchr)
 	UT_ASSERT_EQ(strrchr(buf, 'a'), ft_strrchr(buf, 'a'));
 	UT_ASSERT_EQ(strrchr(buf, 0), ft_strrchr(buf, 0));
 	UT_ASSERT_EQ(ft_strrchr(buf, 'z'), 0);
+	buf[5] = 0;
+	UT_ASSERT_EQ(ft_strrchr(buf, 'a'), buf);
 }
 
 UT_TEST(ft_strstr)
