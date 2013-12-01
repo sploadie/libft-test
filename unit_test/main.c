@@ -362,6 +362,35 @@ UT_TEST(ft_strmap)
 	UT_ASSERT_EQ(ft_strcmp(str, "bcdef"), 0);
 }
 
+char	mapi_test(unsigned int i, char c)
+{
+	return (c + i);
+}
+
+UT_TEST(ft_strmapi)
+{
+	char	*str;
+
+	str = "abcde";
+	str = ft_strmapi(str, mapi_test);
+	UT_ASSERT_EQ(ft_strcmp(str, "acegi"), 0);
+}
+
+UT_TEST(ft_strequ)
+{
+	UT_ASSERT_EQ(ft_strequ("", ""), 1);
+	UT_ASSERT_EQ(ft_strequ("abcDEF", "abcDEF"), 1);
+	UT_ASSERT_EQ(ft_strequ("abcDEF", "abcDEf"), 0);
+}
+
+UT_TEST(ft_strnequ)
+{
+	UT_ASSERT_EQ(ft_strnequ("ededeqdf", "", 0), 1);
+	UT_ASSERT_EQ(ft_strnequ("abcde", "abdfe", 2), 1);
+	UT_ASSERT_EQ(ft_strnequ("abc", "abc", 100), 1);
+	UT_ASSERT_EQ(ft_strnequ("abcde", "abdde", 5), 0);
+}
+
 #endif
 
 int	main(void)
@@ -403,6 +432,9 @@ int	main(void)
 	UT_ADD_TEST(ft_striter);
 	UT_ADD_TEST(ft_striteri);
 	UT_ADD_TEST(ft_strmap);
+	UT_ADD_TEST(ft_strmapi);
+	UT_ADD_TEST(ft_strequ);
+	UT_ADD_TEST(ft_strnequ);
 #endif
 	UT_RUN_ALL_TESTS();
 	return (0);
