@@ -11,6 +11,12 @@
 
 /* #define NO_PART_2 */
 
+/*
+** Same for bonus :
+*/
+
+/* #define NO_BONUS */
+
 UT_TEST(ft_memset)
 {
 	char	b1[100], b2[100];
@@ -214,6 +220,7 @@ UT_TEST(ft_atoi)
 	UT_ASSERT_EQ(ft_atoi("  \t\n  \r\r\v\f-899"), -899);
 	UT_ASSERT_EQ(ft_atoi("+0089"), 89);
 	UT_ASSERT_EQ(ft_atoi("-2147483648"), -2147483648);
+	UT_ASSERT_EQ(ft_atoi("a56"), 0);
 }
 
 UT_TEST(ft_isalpha)
@@ -305,7 +312,8 @@ UT_TEST(ft_strnew)
 	t = malloc(101);
 	bzero(t, 101);
 	UT_ASSERT_EQ(memcmp(str, t, 101), 0);
-	UT_ASSERT_EQ(ft_strnew((size_t)-1), 0);
+	UT_ASSERT_NEQ(ft_strnew(0), 0);
+	UT_ASSERT_EQ(ft_strnew((size_t)-10), 0);
 }
 
 UT_TEST(ft_strdel)
@@ -579,6 +587,46 @@ UT_TEST(ft_putnbr_fd)
 
 #endif
 
+#ifndef NO_BONUS
+
+UT_TEST(ft_lstnew)
+{
+	t_list	*list;
+	int		ft;
+
+	ft = 42;
+	list = ft_lstnew(&ft, sizeof(int));
+	UT_ASSERT_EQ((*(int*)(list->content)), 42);
+	list = ft_lstnew(NULL, 386);
+	UT_ASSERT_EQ((list->content_size), 0);
+}
+
+int		____diddel;
+
+void	del_test(void *data, size_t i)
+{
+	(void)data;
+	(void)i;
+	____diddel = 1;
+}
+
+UT_TEST(ft_lstdelone)
+{
+	t_list	*list;
+	int		ft;
+	____diddel = 0;
+
+	ft = 42;
+	list = (t_list *)malloc(sizeof(t_list));
+	list->content = &ft;
+	list->content_size = sizeof(int);
+	ft_lstdelone(&list, del_test);
+	UT_ASSERT_EQ(list, NULL);
+	UT_ASSERT_EQ(____diddel, 1);
+}
+
+#endif
+
 int	main(void)
 {
 	UT_ADD_TEST(ft_memset);
@@ -634,6 +682,10 @@ int	main(void)
 	UT_ADD_TEST(ft_putstr_fd);
 	UT_ADD_TEST(ft_putendl_fd);
 	UT_ADD_TEST(ft_putnbr_fd);
+#endif
+#ifndef	NO_BONUS
+	UT_ADD_TEST(ft_lstnew);
+	UT_ADD_TEST(ft_lstdelone);
 #endif
 	UT_RUN_ALL_TESTS();
 	return (0);
