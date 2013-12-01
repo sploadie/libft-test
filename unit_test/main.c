@@ -535,6 +535,48 @@ UT_TEST(ft_putchar_fd)
 	UT_ASSERT_EQ(strcmp(buf, "ab"), 0);
 }
 
+UT_TEST(ft_putstr_fd)
+{
+	int		p[2];
+	char	buf[100];
+
+	pipe(p);
+	ft_putstr_fd("A QUE KOUKOU", p[1]);
+	buf[read(p[0], buf, 100)] = 0;
+	close(p[0]);
+	close(p[1]);
+	UT_ASSERT_EQ(strcmp(buf, "A QUE KOUKOU"), 0);
+}
+
+UT_TEST(ft_putendl_fd)
+{
+	int		p[2];
+	char	buf[100];
+
+	pipe(p);
+	ft_putendl_fd("A QUE KOUKOU", p[1]);
+	buf[read(p[0], buf, 100)] = 0;
+	close(p[0]);
+	close(p[1]);
+	UT_ASSERT_EQ(strcmp(buf, "A QUE KOUKOU\n"), 0);
+}
+
+UT_TEST(ft_putnbr_fd)
+{
+	int		p[2];
+	char	buf[100];
+
+	pipe(p);
+	ft_putnbr_fd(0, p[1]);
+	ft_putnbr_fd(56, p[1]);
+	ft_putnbr_fd(-1230, p[1]);
+	ft_putnbr_fd(-2147483648, p[1]);
+	buf[read(p[0], buf, 100)] = 0;
+	close(p[0]);
+	close(p[1]);
+	UT_ASSERT_EQ(strcmp(buf, "056-1230-2147483648"), 0);
+}
+
 #endif
 
 int	main(void)
@@ -589,6 +631,9 @@ int	main(void)
 	UT_ADD_TEST(ft_putendl);
 	UT_ADD_TEST(ft_putnbr);
 	UT_ADD_TEST(ft_putchar_fd);
+	UT_ADD_TEST(ft_putstr_fd);
+	UT_ADD_TEST(ft_putendl_fd);
+	UT_ADD_TEST(ft_putnbr_fd);
 #endif
 	UT_RUN_ALL_TESTS();
 	return (0);
