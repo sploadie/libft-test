@@ -658,6 +658,22 @@ UT_TEST(ft_lstadd)
 	UT_ASSERT_NEQ(list->next, NULL);
 }
 
+void	lstiter_test(t_list *ppp)
+{
+	ppp->content_size = 42;
+}
+
+UT_TEST(ft_lstiter)
+{
+	t_list	*list;
+
+	bzero((list = malloc(sizeof(t_list))), sizeof(t_list));
+	bzero(((list->next) = malloc(sizeof(t_list))), sizeof(t_list));
+	ft_lstiter(list, lstiter_test);
+	UT_ASSERT_EQ(list->content_size, 42);
+	UT_ASSERT_EQ(list->next->content_size, 42);
+}
+
 #endif
 
 int	main(void)
@@ -721,6 +737,7 @@ int	main(void)
 	UT_ADD_TEST(ft_lstdelone);
 	UT_ADD_TEST(ft_lstdel);
 	UT_ADD_TEST(ft_lstadd);
+	UT_ADD_TEST(ft_lstiter);
 #endif
 	UT_RUN_ALL_TESTS();
 	return (0);
