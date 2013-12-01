@@ -646,7 +646,16 @@ UT_TEST(ft_lstdel)
 
 UT_TEST(ft_lstadd)
 {
-	UT_ASSERT(0);
+	t_list	*list;
+	t_list	*list2;
+
+	list = malloc(sizeof(t_list));
+	list2 = malloc(sizeof(t_list));
+	bzero(list, sizeof(t_list));
+	bzero(list2, sizeof(t_list));
+	ft_lstadd(&list2, list);
+	UT_ASSERT_EQ(list, list2);
+	UT_ASSERT_NEQ(list->next, NULL);
 }
 
 #endif
@@ -711,6 +720,7 @@ int	main(void)
 	UT_ADD_TEST(ft_lstnew);
 	UT_ADD_TEST(ft_lstdelone);
 	UT_ADD_TEST(ft_lstdel);
+	UT_ADD_TEST(ft_lstadd);
 #endif
 	UT_RUN_ALL_TESTS();
 	return (0);

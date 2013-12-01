@@ -24,8 +24,5 @@ fclean: clean
 
 re: fclean all
 
-run: $(NAME)
-	@. ./malloc.sh; ./$(NAME);
-
 ../libft.a:
 	@make -C ..
