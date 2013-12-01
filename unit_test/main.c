@@ -3,6 +3,7 @@
 #include <string.h>
 #include <strings.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 /* Uncomment this if you don't have
 ** Part 2 
@@ -416,12 +417,86 @@ UT_TEST(ft_strtrim)
 	UT_ASSERT_EQ(strcmp(ft_strtrim("abc"), "abc"), 0);
 }
 
+UT_TEST(ft_strsplit)
+{
+	char	**tt;
+
+	tt = ft_strsplit("***salut****!**", '*');
+	UT_ASSERT_EQ(strcmp(tt[0], "salut"), 0);
+	UT_ASSERT_EQ(strcmp(tt[1], "!"), 0);
+	UT_ASSERT_EQ(tt[2], NULL);
+	tt = ft_strsplit("*****", '*');
+	UT_ASSERT_EQ(tt[0], NULL);
+	tt = ft_strsplit("coucou", '*');
+	UT_ASSERT_EQ(strcmp(tt[0], "coucou"), 0);
+	UT_ASSERT_EQ(tt[1], NULL);
+}
+
 UT_TEST(ft_itoa)
 {
 	UT_ASSERT_EQ(strcmp(ft_itoa(0), "0"), 0);
 	UT_ASSERT_EQ(strcmp(ft_itoa(-1234), "-1234"), 0);
 	UT_ASSERT_EQ(strcmp(ft_itoa(123456000), "123456000"), 0);
 	UT_ASSERT_EQ(strcmp(ft_itoa(-2147483648), "-2147483648"), 0);
+}
+
+UT_TEST(ft_putchar)
+{
+	int		out;
+	int		p[2];
+	char	buf[4];
+
+	out = dup(1);
+	pipe(p);
+	dup2(p[1], 1);
+	ft_putchar('a');
+	ft_putchar('b');
+	ft_putchar('c');
+	dup2(out, 1);
+	read(p[0], buf, 3);
+	buf[3] = 0;
+	close(p[0]);
+	close(p[1]);
+	close(out);
+	UT_ASSERT_EQ(strcmp(buf, "abc"), 0);
+}
+
+UT_TEST(ft_putstr)
+{
+	int		out;
+	int		p[2];
+	char	buf[4];
+
+	out = dup(1);
+	pipe(p);
+	dup2(p[1], 1);
+	ft_putstr("aaa");
+	dup2(out, 1);
+	read(p[0], buf, 3);
+	buf[3] = 0;
+	close(p[0]);
+	close(p[1]);
+	close(out);
+	UT_ASSERT_EQ(strcmp(buf, "aaa"), 0);
+}
+
+UT_TEST(ft_putendl)
+{
+	int		out;
+	int		p[2];
+	char	buf[4];
+
+	out = dup(1);
+	pipe(p);
+	dup2(p[1], 1);
+	ft_putendl("aa");
+	dup2(out, 1);
+	read(p[0], buf, 3);
+	buf[3] = 0;
+	close(p[0]);
+	close(p[1]);
+	close(out);
+	UT_ASSERT_EQ(strcmp(buf, "aa\n"), 0);
 }
 
 #endif
@@ -471,7 +546,11 @@ int	main(void)
 	UT_ADD_TEST(ft_strsub);
 	UT_ADD_TEST(ft_strjoin);
 	UT_ADD_TEST(ft_strtrim);
+	UT_ADD_TEST(ft_strsplit);
 	UT_ADD_TEST(ft_itoa);
+	UT_ADD_TEST(ft_putchar);
+	UT_ADD_TEST(ft_putstr);
+	UT_ADD_TEST(ft_putendl);
 #endif
 	UT_RUN_ALL_TESTS();
 	return (0);
