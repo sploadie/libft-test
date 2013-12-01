@@ -26,6 +26,9 @@ UT_TEST(ft_memset)
 	memset(b2, 42, 100);
 	UT_ASSERT_EQ(memset(b1, 99, 0), ft_memset(b1, 99, 0));
 	UT_ASSERT_EQ(memcmp(b1, b2, 100), 0);
+	b1[0] = 1;
+	ft_memset(b1, 0, 0);
+	UT_ASSERT_EQ(b1[0], 1);
 }
 
 UT_TEST(ft_bzero)
@@ -77,6 +80,7 @@ UT_TEST(ft_memchr)
 {
 	char	test[] = "abcdef";
 
+	UT_ASSERT_EQ(ft_memchr(test, 'a', 5), test);
 	UT_ASSERT_EQ(ft_memchr(test, 'c', 5), test + 2);
 	UT_ASSERT_EQ(ft_memchr(test, '\0', 7), memchr(test, '\0', 7));
 	UT_ASSERT_EQ(ft_memchr(test, 'z', 6), 0);
@@ -110,7 +114,7 @@ UT_TEST(ft_strdup)
 
 UT_TEST(ft_strcpy)
 {
-	char	buf[100];
+	char	buf[6];
 
 	ft_strcpy(buf, "abcde");
 	UT_ASSERT_EQ(strcmp(buf, "abcde"), 0);
@@ -135,6 +139,7 @@ UT_TEST(ft_strcat)
 	ft_strcat(buf, "jour.");
 	ft_strcat(buf, "");
 	UT_ASSERT_EQ(strcmp(buf, "Bonjour."), 0);
+	UT_ASSERT_EQ(buf, ft_strcat(buf, ""));
 }
 
 UT_TEST(ft_strncat)
@@ -146,6 +151,7 @@ UT_TEST(ft_strncat)
 	UT_ASSERT_EQ(strcmp(buf, "To be or not"), 0);
 	ft_strncat(buf, "efefef", 0);
 	UT_ASSERT_EQ(strcmp(buf, "To be or not"), 0);
+	UT_ASSERT_EQ(buf, ft_strncat(buf, "", 0));
 }
 
 UT_TEST(ft_strlcat)
@@ -171,7 +177,7 @@ UT_TEST(ft_strchr)
 
 	UT_ASSERT_EQ(strchr(buf, 'p'), ft_strchr(buf, 'p'));
 	UT_ASSERT_EQ(strchr(buf, 0), ft_strchr(buf, 0));
-	UT_ASSERT_EQ(strchr(buf, 'J'), buf);
+	UT_ASSERT_EQ(ft_strchr(buf, 'J'), buf);
 	UT_ASSERT_EQ(ft_strchr(buf, 'z'), 0);
 }
 
@@ -193,6 +199,7 @@ UT_TEST(ft_strstr)
 	UT_ASSERT_EQ(strstr(buf, "une"), ft_strstr(buf, "une"));
 	UT_ASSERT_EQ(strstr(buf, ""), ft_strstr(buf, ""));
 	UT_ASSERT_EQ(strstr(buf, "aaaaa"), ft_strstr(buf, "aaaaa"));
+	UT_ASSERT_EQ(ft_strstr(buf, "BWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"), NULL);
 }
 
 UT_TEST(ft_strnstr)
@@ -237,6 +244,7 @@ UT_TEST(ft_atoi)
 	UT_ASSERT_EQ(ft_atoi("+0089"), 89);
 	UT_ASSERT_EQ(ft_atoi("-2147483648"), -2147483648);
 	UT_ASSERT_EQ(ft_atoi("a56"), 0);
+	UT_ASSERT_EQ(ft_atoi("    555 5555555555555555"), 555);
 }
 
 UT_TEST(ft_isalpha)
