@@ -607,15 +607,15 @@ void	del_test(void *data, size_t i)
 {
 	(void)data;
 	(void)i;
-	____diddel = 1;
+	____diddel++;
 }
 
 UT_TEST(ft_lstdelone)
 {
 	t_list	*list;
 	int		ft;
-	____diddel = 0;
 
+	____diddel = 0;
 	ft = 42;
 	list = (t_list *)malloc(sizeof(t_list));
 	list->content = &ft;
@@ -623,6 +623,24 @@ UT_TEST(ft_lstdelone)
 	ft_lstdelone(&list, del_test);
 	UT_ASSERT_EQ(list, NULL);
 	UT_ASSERT_EQ(____diddel, 1);
+}
+
+UT_TEST(ft_lstdel)
+{
+	t_list	*list;
+	int		ft;
+
+	ft = 42;
+	____diddel = 0;
+	list = malloc(sizeof(t_list));
+	bzero(list, sizeof(t_list));
+	list->next = malloc(sizeof(t_list));
+	bzero(list->next, sizeof(t_list));
+	list->content = &ft;
+	list->next->content = (&ft) + 1;
+	ft_lstdel(&list, del_test);
+	UT_ASSERT_EQ(list, NULL);
+	UT_ASSERT_EQ(____diddel, 2);
 }
 
 #endif
@@ -686,7 +704,9 @@ int	main(void)
 #ifndef	NO_BONUS
 	UT_ADD_TEST(ft_lstnew);
 	UT_ADD_TEST(ft_lstdelone);
+	UT_ADD_TEST(ft_lstdel);
 #endif
 	UT_RUN_ALL_TESTS();
 	return (0);
 }
+
