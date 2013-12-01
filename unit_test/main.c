@@ -24,7 +24,7 @@ UT_TEST(ft_memset)
 
 	ft_memset(b1, 42, 100);
 	memset(b2, 42, 100);
-	UT_ASSERT_EQ(memset(b1, 33, 0), ft_memset(b1, 99, 0));
+	UT_ASSERT_EQ(memset(b1, 99, 0), ft_memset(b1, 99, 0));
 	UT_ASSERT_EQ(memcmp(b1, b2, 100), 0);
 }
 
@@ -35,6 +35,9 @@ UT_TEST(ft_bzero)
 	bzero(b1, 10);
 	bzero(b2, 10);
 	UT_ASSERT_EQ(memcmp(b1, b2, 10), 0);
+	b1[0] = 1;
+	ft_bzero(b1, 0);
+	UT_ASSERT_EQ(b1[0], 1);
 }
 
 UT_TEST(ft_memcpy)
@@ -58,6 +61,7 @@ UT_TEST(ft_memccpy)
 	UT_ASSERT_EQ(ft_memccpy(buf2, buf1, 'k', 5), 0);
 	UT_ASSERT_EQ(ft_memccpy(buf2, buf1, 0, 0), memccpy(buf2, buf1, 0, 0));
 	UT_ASSERT_EQ(ft_memccpy(buf2, buf1, 0, sizeof(buf1)), memccpy(buf2, buf1, 0, sizeof(buf1)));
+	UT_ASSERT_EQ(ft_memccpy(buf2, buf1, 'C', 10), buf2 + 1);
 }
 
 UT_TEST(ft_memmove)
@@ -74,6 +78,7 @@ UT_TEST(ft_memchr)
 	char	test[] = "abcdef";
 
 	UT_ASSERT_EQ(ft_memchr(test, 'c', 5), test + 2);
+	UT_ASSERT_EQ(ft_memchr(test, '\0', 7), memchr(test, '\0', 7));
 	UT_ASSERT_EQ(ft_memchr(test, 'z', 6), 0);
 }
 
@@ -95,7 +100,12 @@ UT_TEST(ft_strlen)
 
 UT_TEST(ft_strdup)
 {
+	char	*c;
+
+	c = "AbC";
 	UT_ASSERT_EQ(strcmp(ft_strdup("aaaaa"), "aaaaa"), 0);
+	UT_ASSERT_EQ(strcmp(ft_strdup(""), ""), 0);
+	UT_ASSERT_NEQ(c, ft_strdup(c));
 }
 
 UT_TEST(ft_strcpy)
