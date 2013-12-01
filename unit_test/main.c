@@ -674,6 +674,32 @@ UT_TEST(ft_lstiter)
 	UT_ASSERT_EQ(list->next->content_size, 42);
 }
 
+t_list	*lstmap_test(t_list *list)
+{
+	t_list	*l2;
+
+	l2 = malloc(sizeof(t_list));
+	bzero(l2, sizeof(t_list));
+	l2->content_size = list->content_size * 2;
+	return (l2);
+}
+
+UT_TEST(ft_lstmap)
+{
+	t_list	*list;
+	t_list	*map;
+
+	bzero((list = malloc(sizeof(t_list))), sizeof(t_list));
+	bzero((list->next = malloc(sizeof(t_list))), sizeof(t_list));
+	list->content_size = 21;
+	list->next->content_size = 100;
+	map = ft_lstmap(list, lstmap_test);
+	UT_ASSERT_EQ(list->content_size, 21);
+	UT_ASSERT_EQ(list->next->content_size, 100);
+	UT_ASSERT_EQ(map->content_size, 42);
+	UT_ASSERT_EQ(map->next->content_size, 200);
+}
+
 #endif
 
 int	main(void)
@@ -738,6 +764,7 @@ int	main(void)
 	UT_ADD_TEST(ft_lstdel);
 	UT_ADD_TEST(ft_lstadd);
 	UT_ADD_TEST(ft_lstiter);
+	UT_ADD_TEST(ft_lstmap);
 #endif
 	UT_RUN_ALL_TESTS();
 	return (0);
