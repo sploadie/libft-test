@@ -23,6 +23,7 @@ UT_TEST(ft_memset)
 UT_TEST(ft_bzero)
 {
 	char	b1[10], b2[10];
+
 	bzero(b1, 10);
 	bzero(b2, 10);
 	UT_ASSERT_EQ(memcmp(b1, b2, 10), 0);
@@ -396,7 +397,7 @@ UT_TEST(ft_strsub)
 	char	*str;
 
 	str = "Un jour je serai, le meilleur dresseur !";
-	UT_ASSERT_EQ(ft_strsub(str, 0, (size_t)-1), NULL);
+	UT_ASSERT_EQ(ft_strsub(str, 0, (size_t)-10), NULL);
 	UT_ASSERT_EQ(strcmp(ft_strsub(str, 8, 8), "je serai"), 0);
 	UT_ASSERT_EQ(strcmp(ft_strsub(str, 0, 0), ""), 0);
 }
