@@ -77,6 +77,7 @@ UT_TEST(ft_memcmp)
 	UT_ASSERT_EQ(ft_memcmp(t, t, 5), 0);
 	UT_ASSERT_NEQ(ft_memcmp(t, "abcab", 5) ,0);
 	UT_ASSERT(ft_memcmp("aaa", "aab", 4) < 0);
+	UT_ASSERT_EQ(ft_memcmp("aww", "bpp", 0), 0);
 }
 
 UT_TEST(ft_strlen)
@@ -499,6 +500,41 @@ UT_TEST(ft_putendl)
 	UT_ASSERT_EQ(strcmp(buf, "aa\n"), 0);
 }
 
+UT_TEST(ft_putnbr)
+{
+	int		out;
+	int		p[2];
+	char	buf[100];
+
+	out = dup(1);
+	pipe(p);
+	dup2(p[1], 1);
+	ft_putnbr(0);
+	ft_putnbr(12300);
+	ft_putnbr(-56);
+	ft_putnbr(-2147483648);
+	dup2(out, 1);
+	buf[read(p[0], buf, 100)] = 0;
+	close(p[0]);
+	close(p[1]);
+	close(out);
+	UT_ASSERT_EQ(strcmp(buf, "012300-56-2147483648"), 0);
+}
+
+UT_TEST(ft_putchar_fd)
+{
+	int		p[2];
+	char	buf[100];
+
+	pipe(p);
+	ft_putchar_fd('a', p[1]);
+	ft_putchar_fd('b', p[1]);
+	buf[read(p[0], buf, 100)] = 0;
+	close(p[0]);
+	close(p[1]);
+	UT_ASSERT_EQ(strcmp(buf, "ab"), 0);
+}
+
 #endif
 
 int	main(void)
@@ -551,6 +587,8 @@ int	main(void)
 	UT_ADD_TEST(ft_putchar);
 	UT_ADD_TEST(ft_putstr);
 	UT_ADD_TEST(ft_putendl);
+	UT_ADD_TEST(ft_putnbr);
+	UT_ADD_TEST(ft_putchar_fd);
 #endif
 	UT_RUN_ALL_TESTS();
 	return (0);
