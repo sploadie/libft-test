@@ -213,6 +213,7 @@ UT_TEST(ft_strnstr)
 	UT_ASSERT_EQ(ft_strnstr(buf, "", 6), buf);
 	UT_ASSERT_EQ(ft_strnstr(buf, "deux", 5), strnstr(buf, "deux", 5));
 	UT_ASSERT_EQ(ft_strnstr(buf, "9", 10), strnstr(buf, "9", 10));
+	UT_ASSERT_EQ(ft_strnstr(buf, "9", 8), strnstr(buf, "9", 8));
 	buf[9] = '6';
 	UT_ASSERT_EQ(strnstr(buf, "cinq", 10), ft_strnstr(buf, "cinq", 10));
 	UT_ASSERT_EQ(strnstr(buf, "deux", 10), ft_strnstr(buf, "deux", 10));
@@ -226,11 +227,13 @@ UT_TEST(ft_strcmp)
 {
 	UT_ASSERT_EQ(ft_strcmp("abc", "abc"), 0);
 	UT_ASSERT(ft_strcmp("abc", "abd") < 0);
-	UT_ASSERT_NEQ(ft_strcmp("a", "abcde"), 0)
+	UT_ASSERT(ft_strcmp("\200", "\0") > 0);
+	UT_ASSERT_NEQ(ft_strcmp("a", "abcde"), 0);
 }
 
 UT_TEST(ft_strncmp)
 {
+	UT_ASSERT(ft_strncmp("\200", "\0", 1) > 0);
 	UT_ASSERT_EQ(ft_strncmp("abc", "abcde", 3), 0);
 	UT_ASSERT_EQ(ft_strncmp("abc", "abc\0defg", 100), 0);
 	UT_ASSERT_NEQ(ft_strncmp("ab\0cde", "abcc\0e", 20), 0);
@@ -239,12 +242,15 @@ UT_TEST(ft_strncmp)
 UT_TEST(ft_atoi)
 {
 	UT_ASSERT_EQ(ft_atoi(" -sfecf"), 0);
+	UT_ASSERT_EQ(ft_atoi(""), 0);
 	UT_ASSERT_EQ(ft_atoi("+2798"), 2798);
 	UT_ASSERT_EQ(ft_atoi("  \t\n  \r\r\v\f-899"), -899);
 	UT_ASSERT_EQ(ft_atoi("+0089"), 89);
 	UT_ASSERT_EQ(ft_atoi("-2147483648"), -2147483648);
 	UT_ASSERT_EQ(ft_atoi("a56"), 0);
 	UT_ASSERT_EQ(ft_atoi("    555 5555555555555555"), 555);
+	UT_ASSERT_EQ(ft_atoi("      --s8"), 0);
+	UT_ASSERT_EQ(ft_atoi("0001020304"), 1020304);
 }
 
 UT_TEST(ft_isalpha)
@@ -542,15 +548,19 @@ UT_TEST(ft_putnbr)
 	pipe(p);
 	dup2(p[1], 1);
 	ft_putnbr(0);
+	ft_putnbr(1);
+	ft_putnbr(-1);
 	ft_putnbr(12300);
+	ft_putnbr(10203);
 	ft_putnbr(-56);
+	ft_putnbr(2147483647);
 	ft_putnbr(-2147483648);
 	dup2(out, 1);
 	buf[read(p[0], buf, 100)] = 0;
 	close(p[0]);
 	close(p[1]);
 	close(out);
-	UT_ASSERT_EQ(strcmp(buf, "012300-56-2147483648"), 0);
+	UT_ASSERT_EQ(strcmp(buf, "01-11230010203-562147483647-2147483648"), 0);
 }
 
 UT_TEST(ft_putchar_fd)
