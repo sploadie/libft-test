@@ -309,6 +309,8 @@ UT_TEST(ft_isprint)
 	UT_ASSERT_NEQ(ft_isprint(' '), 0);
 	UT_ASSERT_NEQ(ft_isprint('a'), 0);
 	UT_ASSERT_NEQ(ft_isprint(126), 0);
+	UT_ASSERT_EQ(ft_isprint(-1), 0);
+	UT_ASSERT_EQ(ft_isprint(-2147483648), 0);
 }
 
 UT_TEST(ft_toupper)
