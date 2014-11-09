@@ -170,6 +170,33 @@ UT_TEST(ft_strncat)
 	UT_ASSERT_EQ(buf, ft_strncat(buf, "", 0));
 }
 
+int     test_strlcat(void)
+{
+	char *s = "c est ";
+	char *s1 = "moi";
+	char *s_ = "c est ";
+	char *s1_ = "moi";
+	int i = 0;
+	size_t k;
+	size_t j;
+	while (i < 15)
+	{
+		char *target = malloc(strlen(s) + strlen(s1) + 1);
+		char *target_ = malloc(strlen(s) + strlen(s1) + 1);
+		strcpy(target, s);
+		strcpy(target_, s_);
+		k = ft_strlcat(target, s1, i);
+		j = strlcat(target_, s1_, i);
+/* 		printf("\ni = %d\n", i); */
+/* 		printf("ft_strlcat target: %s _;_ size = %zu\n", target, k); */
+/* 		printf("strlcat target: %s _;_ size = %zu\n", target_, j); */
+		if (k != j)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 UT_TEST(ft_strlcat)
 {
 	char	buf[10];
@@ -185,6 +212,7 @@ UT_TEST(ft_strlcat)
 	bzero(buf, 10);
 	memset(buf, 'a', 10);
 	UT_ASSERT_EQ(ft_strlcat(buf, "ccc", 10), 13);
+	UT_ASSERT_EQ(test_strlcat(), 1);
 }
 
 UT_TEST(ft_strchr)
