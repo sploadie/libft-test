@@ -2,7 +2,7 @@
 
 NAME = unit_test
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -pedantic -I./..
+CFLAGS = -Wall -Werror -Wextra -I./..
 LDFLAGS = -L./.. -lft
 SOURCE = main.c unit_test.c
 OBJ = $(SOURCE:.c=.o)
@@ -25,4 +25,4 @@ fclean: clean
 re: fclean all
 
 ../libft.a:
-	@make -C ..
+	@make -C ..;
