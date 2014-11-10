@@ -3,6 +3,7 @@
 #include <string.h>
 #include <strings.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <malloc/malloc.h>
 
@@ -187,9 +188,11 @@ int     test_strlcat(void)
 		strcpy(target_, s_);
 		k = ft_strlcat(target, s1, i);
 		j = strlcat(target_, s1_, i);
-/* 		printf("\ni = %d\n", i); */
-/* 		printf("ft_strlcat target: %s _;_ size = %zu\n", target, k); */
-/* 		printf("strlcat target: %s _;_ size = %zu\n", target_, j); */
+		// FAILING THIS TEST? UNCOMMENT TO SEE WHERE~!
+ 		// printf("\ni = %d\n", i);
+ 		// printf("ft_strlcat string: |%s|\treturn = %zu\n", target, k);
+ 		// printf("strlcat string   : |%s|\treturn = %zu\n", target_, j);
+ 		// printf("Are they the strings the same? %i\n", strcmp(target, target_));
 		if (k != j)
 			return (0);
 		i++;
@@ -292,6 +295,7 @@ UT_TEST(ft_atoi)
 	UT_ASSERT_EQ(ft_atoi("+2798"), atoi("+2798"));
 	UT_ASSERT_EQ(ft_atoi("  \t\n  \r\r\v\f-899"), atoi("  \t\n  \r\r\v\f-899"));
 	UT_ASSERT_EQ(ft_atoi("+0089"), atoi("+0089"));
+	// LIMIT TESTS
 	UT_ASSERT_EQ(ft_atoi("-2147483648"), atoi("-2147483648"));
 	UT_ASSERT_EQ(ft_atoi("2147483647"), atoi("2147483647"));
 	UT_ASSERT_EQ(ft_atoi("2147483648"), atoi("2147483648"));
@@ -300,6 +304,12 @@ UT_TEST(ft_atoi)
 	UT_ASSERT_EQ(ft_atoi("9223372036854775808"), atoi("9223372036854775808"));
 	UT_ASSERT_EQ(ft_atoi("2398472983749236582739823758723469826928374")
 				 , atoi("2398472983749236582739823758723469826928374"));
+	UT_ASSERT_EQ(ft_atoi("-9223372036854775807"), atoi("-9223372036854775807"));
+	UT_ASSERT_EQ(ft_atoi("-9223372036854775806"), atoi("-9223372036854775806"));
+	UT_ASSERT_EQ(ft_atoi("-9223372036854775808"), atoi("-9223372036854775808"));
+	UT_ASSERT_EQ(ft_atoi("-2398472983749236582739823758723469826928374")
+				 , atoi("-2398472983749236582739823758723469826928374"));
+	// STRING TESTS
 	UT_ASSERT_EQ(ft_atoi("a56"), atoi("a56"));
 	UT_ASSERT_EQ(ft_atoi("    555 5555555555555555")
 				 , atoi("    555 5555555555555555"));
